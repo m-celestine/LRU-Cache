@@ -3,45 +3,31 @@ from collections import deque
 class LRUCache:
 
     def __init__(self, capacity: int):
-        # initialize cache of the size -> "capacity"
         self.cache = {}
-        self.cap = capacity
+        self.capacity = capacity
         self.queue = deque()
 
-
     def get(self, key: int) -> int:
-        #return value at key
         if key in self.cache:
+            # Move key to end (most recently used)
+            self.queue.remove(key)
+            self.queue.append(key)
             return self.cache[key]
-        #else return -1
         return -1
 
-
     def put(self, key: int, value: int) -> None:
-        #if key is in cache it will update val,
-        #   if not in cache it will ad new pair
-        self.cache[key] = value
-        #add to queue
-        self.queue.append(key)
-
-        #if we reached capacity, dequeue and remove from  hashmap
-        if self.cap <= 0:
-            del self.cache[self.queue.popleft()]
-
+        if key in self.cache:
+            # Update existing key
+            self.cache[key] = value
+            # Move to end (most recently used)
+            self.queue.remove(key)
+            self.queue.append(key)
         else:
-            #decrement capacity
-            self.cap -= 1
+            # Add new key
+            if len(self.cache) >= self.capacity:
+                # Remove least recently used
+                oldest_key = self.queue.popleft()
+                del self.cache[oldest_key]
 
-
-
-
-        '''# update "value" of "key",   if "key exists"
-            if key in self.cache:
-                self.cache[key] = value
-            #else add pair to cache
-            else:
-                self.cache[key] = value
-'''
-
-
-
+            self.cache[key] = value
+            self.queue.append(key)
