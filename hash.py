@@ -40,7 +40,7 @@ class LRUCache(object):
         self.cap -= 1
 
         if self.cap == 0:
-            self.cache.remove(0)
+            self.cache.popitem(last=False)
             self.cap += 1
 
 
