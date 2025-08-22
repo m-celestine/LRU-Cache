@@ -26,7 +26,8 @@ class LRUCache(object):
         """
 
         #check if already in hash
-        
+        if key in self.cache:
+            self.cache[key].move
         
         # add a new pair
         self.cache[key] = value
