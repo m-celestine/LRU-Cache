@@ -29,21 +29,15 @@ class LRUCache(object):
         :type key: int
         :type value: int
         :rtype: None
-        """
-
-        
-        
+        """    
         # add a new pair
         self.cache[key] = value
         # update position
         self.cache.move_to_end(key)
-        # update capacity
-        self.cap -= 1
-
+        
         # remove least used when cap gets full
-        if self.cap == 0:
+        if len(self.cache) > self.cap:
             self.cache.popitem(last=False)
-            self.cap += 1
 
 
 
