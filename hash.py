@@ -17,7 +17,7 @@ class LRUCache(object):
         """
         # check if already in hash
         if key in self.cache:
-            self.cache[key].move_to_end()
+            self.cache.move_to_end(key)
             return self.cache[key]
 
         # return -1 if not found
@@ -35,10 +35,12 @@ class LRUCache(object):
         
         # add a new pair
         self.cache[key] = value
-
+        # update position
+        self.cache.move_to_end(key)
         # update capacity
         self.cap -= 1
 
+        # remove least used when cap gets full
         if self.cap == 0:
             self.cache.popitem(last=False)
             self.cap += 1
