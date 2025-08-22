@@ -15,7 +15,13 @@ class LRUCache(object):
         :type key: int
         :rtype: int
         """
-        return self.cache[key] if key in self.cache else -1
+        # check if already in hash
+        if key in self.cache:
+            self.cache[key].move_to_end()
+            return self.cache[key]
+
+        # return -1 if not found
+        return -1
 
 
     def put(self, key, value):
@@ -25,9 +31,7 @@ class LRUCache(object):
         :rtype: None
         """
 
-        #check if already in hash
-        if key in self.cache:
-            self.cache[key].move
+        
         
         # add a new pair
         self.cache[key] = value
@@ -36,7 +40,7 @@ class LRUCache(object):
         self.cap -= 1
 
         if self.cap == 0:
-            self.cache[key].remove(0)
+            self.cache.remove(0)
             self.cap += 1
 
 
